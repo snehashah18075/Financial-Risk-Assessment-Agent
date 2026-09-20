@@ -1,3 +1,4 @@
+import os
 import gradio as gr
 from agent import FinancialRiskAgent
 
@@ -836,12 +837,10 @@ def create_ui():
 
 if __name__ == "__main__":
     demo = create_ui()
-    import sys
-    port = 7860
-    if len(sys.argv) > 1 and sys.argv[1].isdigit():
-        port = int(sys.argv[1])
-    try:
-        demo.launch(server_name="127.0.0.1", server_port=port, share=False, css=CUSTOM_CSS)
-    except Exception as err:
-        print(f"Port {port} in use ({err}), trying port {port+1}...")
-        demo.launch(server_name="127.0.0.1", server_port=port+1, share=False, css=CUSTOM_CSS)
+    port = int(os.environ.get("PORT", 7860))
+    demo.launch(
+        server_name="0.0.0.0",
+        server_port=port,
+        share=False,
+        css=CUSTOM_CSS
+    )
